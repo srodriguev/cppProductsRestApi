@@ -32,3 +32,6 @@ _
 - Invocarlo
     curl "http://localhost:5000?id=200"
     
+git remote add origin https://github.com/jhonarias91/cppProductsRestApi.git
+git branch -M main
+git push -u origin main
