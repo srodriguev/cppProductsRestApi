@@ -1,22 +1,23 @@
 
-- *Instalar todas las depdendencias necesarias. como g++ (compilador c++)*
-    _sudo apt update_
+- *Instalar todas las depdendencias necesarias. como g++ (compilador c++) librerias web libboost-all-dev*
+    
+    ```sudo apt update```
 
-    _sudo apt install g++ libboost-all-dev libssl-dev_
+    ```sudo apt install g++ libboost-all-dev libssl-dev```
 
 - *Instala  libcpprest-dev*
 
-    _sudo apt install libcpprest-dev_
+    ```sudo apt install libcpprest-dev```
 
 - *Para verificarla*
 
-    _dpkg -l | grep libcpprest_
+    ```dpkg -l | grep libcpprest```
 
 - *Compilar el programa*
 
     En la carpeta src:
     
-    _g++ -std=c++11 main.cpp -o productsapp -lcpprest -lboost_system -lssl -lcrypto_
+    ```g++ -std=c++11 main.cpp -o productsapp -lcpprest -lboost_system -lssl -lcrypto```
 
     -std=c++11: Especifica el estándar de C++ a usar, necesario para algunas características de C++ usadas con libcpprest.
     main.cpp: El nombre del source.cpp
@@ -26,8 +27,8 @@
     - lssl -lcrypto: Vincula el programa con las bibliotecas OpenSSL, que son necesarias para el soporte de HTTPS y otras características de seguridad.
 
 - *Ejecutarlo*
-    _./productsapp_
+    ```./productsapp```
 
 - *Consumirlo*
-    _curl "http://localhost:5000?id=200"_
+    ```curl "http://localhost:5000?id=200"```
     
