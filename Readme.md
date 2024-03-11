@@ -3,9 +3,9 @@
     
     ```sudo apt update```
 
-    ```sudo apt install g++ libboost-all-dev libssl-dev```
+    ```sudo apt install -y g++ libboost-all-dev libssl-dev```
 
-- *Instala  libcpprest-dev*
+- *Instala  libcpprest-dev cpprest es una libreria para REST Api*
 
     ```sudo apt install libcpprest-dev```
 
@@ -17,7 +17,8 @@
 
     En la carpeta src:
     
-    ```g++ -std=c++11 main.cpp -o productsapp -lcpprest -lboost_system -lssl -lcrypto```
+    ```g++ -std=c++11 -o productsapp  main.cpp functions.cpp -lcpprest -lboost_system -lssl -lcrypto```
+
 
     -std=c++11: Especifica el estándar de C++ a usar, necesario para algunas características de C++ usadas con libcpprest.
     main.cpp: El nombre del source.cpp
@@ -25,10 +26,23 @@
     - lcpprest: Vincula el programa con la biblioteca libcpprest.
     - lboost_system: Vincula el programa con la biblioteca Boost.System, que es una de las dependencias de libcpprest.
     - lssl -lcrypto: Vincula el programa con las bibliotecas OpenSSL, que son necesarias para el soporte de HTTPS y otras características de seguridad.
+    - functions.cpp es la implementación que se incluye en el main
 
 - *Ejecutarlo*
     ```./productsapp```
 
 - *Consumirlo*
     ```curl "http://localhost:5000?id=200"```
-    
+
+#### Testing
+
+- Bajar el paquete de  gtest 
+```sudo apt install -y libgtest-dev```
+    Para fedora:
+    ```sudo dnf install googletest-devel```
+
+Compilar las unitTest
+
+```g++ -std=c++11 -o runUnitTest unitTest.cpp functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto```
+
+g++ -std=c++11 main.cpp unitTest.cpp -o productsapp -lcpprest -lboost_system -lssl -lcrypto -lgtest -lpthread
