@@ -67,7 +67,7 @@ pipeline {
         }
         stage("Build"){
             steps {            
-                sh "g++ -std=c++11 -o productsapp ./src/main.cpp /src/functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
+                sh "g++ -std=c++11 -o productsapp ./src/main.cpp ./src/functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
             }
         }
         stage("Run"){
