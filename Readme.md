@@ -56,7 +56,6 @@ En build Trigger seleccionar:
 - [x] GitHub hook trigger for GITScm polling
 
 
-
 ```Groovy
 pipeline {
     stages{
@@ -66,9 +65,7 @@ pipeline {
             }
         }
         stage("Build"){
-            step{
-                sh "sudo apt update"    
-                sh "sudo apt install -y g++ libboost-all-dev libssl-dev libcpprest-dev libgtest-dev"
+            step{            
                 sh "g++ -std=c++11 -o productsapp  main.cpp functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
             }
         }
