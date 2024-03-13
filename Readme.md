@@ -71,6 +71,7 @@ pipeline {
         }
         stage("Run"){
             steps{
+                sh "chmod +x ./productsapp"
                 sh "./productsapp"
             }
         }
@@ -81,7 +82,8 @@ pipeline {
 
 [Link ngrok](https://ngrok.com/)
 
-- INiciar ngrok
+- Iniciar ngrok
+Agregar el token de auth
 
 ```ngrok http http://localhost:8080```
 
