@@ -1,13 +1,9 @@
 
-- *Instalar todas las depdendencias necesarias. como g++ (compilador c++) librerias web libboost-all-dev*
+- *Instalar todas las depdendencias necesarias. como g++ (compilador c++) librerias web libboost-all-dev cpprest es una libreria para REST Api*
     
     ```sudo apt update```
 
-    ```sudo apt install -y g++ libboost-all-dev libssl-dev```
-
-- *Instala  libcpprest-dev cpprest es una libreria para REST Api*
-
-    ```sudo apt install libcpprest-dev```
+    ```sudo apt install -y g++ libboost-all-dev libssl-dev libcpprest-dev libgtest-dev```
 
 - *Para verificarla*
 
@@ -45,4 +41,34 @@ Compilar las unitTest
 
 ```g++ -std=c++11 -o runUnitTest unitTest.cpp functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto```
 
-g++ -std=c++11 main.cpp unitTest.cpp -o productsapp -lcpprest -lboost_system -lssl -lcrypto -lgtest -lpthread
+### Jenkis Pipeline
+
+- Install Jenkis
+
+    [Install Guide](https://pkg.jenkins.io/debian-stable)
+
+- Configurar el Pipeline
+```Groovy
+pipeline {
+    stages{
+        stage("Hook"){
+            step {
+                git url: "https://github.com/jhonarias91/cppProductsRestApi"
+            }
+        }
+        stage("Build"){
+            step{
+                sh "sudo apt update"    
+                sh "sudo apt install -y g++ libboost-all-dev libssl-dev libcpprest-dev libgtest-dev"
+                sh "g++ -std=c++11 -o productsapp  main.cpp functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
+            }
+        }
+        stage("Run"){
+            step{
+                sh "./productsapp"
+            }
+        }
+    }
+}
+```
+
