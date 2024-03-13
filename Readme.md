@@ -1,5 +1,5 @@
 
-- *Instalar todas las depdendencias necesarias. como g++ (compilador c++) librerias web libboost-all-dev cpprest es una libreria para REST Api*
+- *Instalar todas las depdendencias necesarias. como g++ (compilador c++) librerias web libboost-all-dev cpprest es una libreria para REST Api* esta instalación es recomendable tenerla en el ambiente.
     
     ```sudo apt update```
 
@@ -83,7 +83,7 @@ pipeline {
 [Link ngrok](https://ngrok.com/)
 
 - Iniciar ngrok
-Agregar el token de auth
+Agregar el token de auth 
 
 ```ngrok http http://localhost:8080```
 
