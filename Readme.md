@@ -47,7 +47,16 @@ Compilar las unitTest
 
     [Install Guide](https://pkg.jenkins.io/debian-stable)
 
+- Instalar el plugin de Github
+
 - Configurar el Pipeline
+
+En build Trigger seleccionar: 
+
+- [x] GitHub hook trigger for GITScm polling
+
+
+
 ```Groovy
 pipeline {
     stages{
@@ -74,6 +83,10 @@ pipeline {
 - Crea un tunel público usando ngrok
 
 [Link ngrok](https://ngrok.com/)
+
+- INiciar ngrok
+
+```ngrok http http://localhost:8080```
 
 
 
