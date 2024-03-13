@@ -66,13 +66,13 @@ pipeline {
         }
         stage("Build"){
             step{            
-                sh "g++ -std=c++11 -o productsapp  main.cpp functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
+                sh "g++ -std=c++11 -o productsapp  ./src/main.cpp /src/functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
             }
         }
         stage("Run"){
             steps{
                 sh "chmod +x ./productsapp"
-                sh "./productsapp"
+                sh "./src/productsapp"
             }
         }
     }
