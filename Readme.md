@@ -71,13 +71,15 @@ pipeline {
         }
         stage("Run"){
             steps{
-                sh "chmod +x ./productsapp"
+                sh "chmod +x ./src/productsapp"
                 sh "./src/productsapp"
             }
         }
     }
 }
 ```
+Darle Build la primera vez para que reconoza y escuche los webHooks.
+
 - Crea un tunel público usando ngrok
 
 [Link ngrok](https://ngrok.com/)
