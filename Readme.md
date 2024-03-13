@@ -58,6 +58,7 @@ En build Trigger seleccionar:
 
 ```Groovy
 pipeline {
+    agent any
     stages{
         stage("Hook"){
             step {
@@ -66,13 +67,13 @@ pipeline {
         }
         stage("Build"){
             step{            
-                sh "g++ -std=c++11 -o productsapp  ./src/main.cpp /src/functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
+                sh "g++ -std=c++11 -o productsapp ./src/main.cpp /src/functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
             }
         }
         stage("Run"){
             steps{
-                sh "chmod +x ./src/productsapp"
-                sh "./src/productsapp"
+                sh "chmod +x ./productsapp"
+                sh "./productsapp"
             }
         }
     }
