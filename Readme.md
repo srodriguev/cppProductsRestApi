@@ -61,12 +61,12 @@ pipeline {
     agent any
     stages{
         stage("Hook"){
-            step {
+            steps {
                 git url: "https://github.com/jhonarias91/cppProductsRestApi"
             }
         }
         stage("Build"){
-            step{            
+            steps {            
                 sh "g++ -std=c++11 -o productsapp ./src/main.cpp /src/functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
             }
         }
@@ -86,7 +86,7 @@ Darle Build la primera vez para que reconoza y escuche los webHooks.
 [Link ngrok](https://ngrok.com/)
 
 - Iniciar ngrok
-Agregar el token de auth 
+Agregar el token de auth. 
 
 ```ngrok http http://localhost:8080```
 
