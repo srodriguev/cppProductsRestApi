@@ -63,6 +63,18 @@
 
     [Install Guide](https://pkg.jenkins.io/debian-stable)
 
+- Habilitar el servicio Jenkis
+
+```sudo systemctl enable jenkins```
+
+ - Iniciar el servicio de jenkis
+
+```sudo systemctl start jenkins ```
+
+- Para verificar el status
+
+```sudo systemctl status jenkins```
+
 - Instalar el plugin de Github
 
 - Configurar el Pipeline
@@ -70,7 +82,6 @@
 En build Trigger seleccionar: 
 
 - [x] GitHub hook trigger for GITScm polling
-
 
 ```Groovy
 pipeline {
@@ -105,6 +116,65 @@ Ejecutar el build manual la primera vez,en caso tal que no se active el webHooks
 Agregar el token de auth. Ver en la página
 
 ```ngrok http http://localhost:8080```
+
+
+### Ejemplo Jenkis en EC2
+
+1. Crear una EC2 y aisgnar un nombre como: _JenkisServer_
+2. Seleccionar la AMI. _Ubuntu Server 22.04 Free tier_
+3. Instace type: _t2.micro Free tier_
+4. Seleccionar o crear Key pair.
+5. Create security group: _Allow SSH anywhere, allow Https, htpp from internet_
+6. Configure storage: _default 8 Gb gp2_
+7. Advance details: _Select the instance profile_ or create a new one
+8. Habilitar el puerto 8080 
+    - Seleccionar la instancia
+    - Ir a Security
+    - Seleccionar el Security groups wizard
+    - Seleccionarlo y Click en Inboud rules
+    - Edit inbound rules 
+    - Add rule
+    - Custom TCP - 8080 - Anywhere
+    - Save rules
+9. Launch Instance
+    
+
+#### Instalar jenkis
+
+- Connect _EC2 Instance conenct _ o via SSH.
+- Install Jenkis
+[Instalación Ubuntu](https://pkg.origin.jenkins.io/debian-stable/)
+
+```   
+  sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+    https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+  
+Then add a Jenkins apt repository entry:
+    
+  echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+    https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+    /etc/apt/sources.list.d/jenkins.list > /dev/null
+  
+Update your local package index, then finally install Jenkins:
+
+   
+  sudo apt-get update
+  sudo apt-get install fontconfig openjdk-17-jre
+  sudo apt-get install jenkins```  
+
+- Correr el servicio de Jenkis
+ journalctl -u jenkins.service
+
+- Verificar jenkis 
+ ```https://ec2instance.ip:8080```
+
+ Si hay algún error con https(puede ser SSL de Jenkis), intentar con 
+
+ http://3.145.92.103:8080/
+ 
+
+
+
 
 
 
