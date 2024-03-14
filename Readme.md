@@ -105,6 +105,12 @@ pipeline {
         }
     }
 }
+
+En gihut ir a Settings -> Webhooks y en PayloadUrl poner:
+la url de ngrok o la de EC2.
+
+http://3.145.92.103:8080/github-webhook
+
 ```
 Ejecutar el build manual la primera vez,en caso tal que no se active el webHooks.
 
@@ -171,7 +177,14 @@ Update your local package index, then finally install Jenkins:
  Si hay algún error con https(puede ser SSL de Jenkis), intentar con 
 
  http://3.145.92.103:8080/
- 
+
+- Ver La clave
+
+```sudo cat /var/lib/jenkins/secrets/initialAdminPassword```
+
+ - Instalar los pluguins recomendados.
+
+- 
 
 
 
