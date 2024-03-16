@@ -5,6 +5,8 @@
 #include <string>
 #include <iostream>
 #include "functions.h"
+#include <thread> // Necesario para std::this_thread::sleep_for
+
 using namespace web;
 using namespace web::http;
 using namespace web::http::experimental::listener;
@@ -22,6 +24,12 @@ int main() {
             .open()
             .then([&listener]() { std::cout << "Starting to listen at: " << listener.uri().to_string() << std::endl; })
             .wait();
+
+        // Mantener la aplicación ejecutándose indefinidamente sin terminar.
+        while (true) {
+            std::this_thread::sleep_for(std::chrono::seconds(60)); // Pausa eficiente, cuando despierta vuelva a entrar al while.
+        }
+
     } catch (const std::exception& e) {
         std::cerr << "An error occurred: " << e.what() << std::endl;
     }
