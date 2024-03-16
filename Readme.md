@@ -1,5 +1,8 @@
 ### C++ Simple Rest API
 
+1. ### Sources
+
+
 - Make sure you have a IDE like vSCode
 
 - *Instalar todas las depdendencias necesarias. como g++ (compilador c++) librerias web libboost-all-dev cpprest es una libreria para REST Api* esta instalación es recomendable tenerla en el ambiente.
@@ -41,7 +44,7 @@
 - *Consumirlo*
     ```curl "http://localhost:5000?id=200"```
 
-#### Testing
+2. ### Testing
 
 - Bajar el paquete de  gtest  
 ```sudo apt install -y libgtest-dev``` 
@@ -57,7 +60,7 @@
  ```./runUnitTest```
 
 
-### Jenkis Pipeline
+3. ### Jenkis Pipeline
 
 - Install Jenkis
 
@@ -76,6 +79,24 @@
 ```sudo systemctl status jenkins```
 
 - Instalar el plugin de Github
+
+- Instalar pluguing SSH Pipeline Steps Version 2.0.68.va_d21a_12a_6476  o superior
+
+- Conectarse a la EC2, ir a /opt y dar permisos
+
+- Agregar la ip de EC2  known host
+
+- ssh-keyscan -t rsa 3.138.34.44 
+
+- copiar el contenido en un archivo known_host y copiar ese archivo 
+ en alguna ruta como /var/lib/jenkins/workspace
+
+darle permisos de lectura a jenkis sobre ese archivo .
+en la parte de knownHostsFile del sshCommand agregar esa ruta.
+
+
+
+ ```chmod -R 777 .```
 
 - Configurar el Pipeline
 
@@ -124,7 +145,7 @@ Agregar el token de auth. Ver en la página
 ```ngrok http http://localhost:8080```
 
 
-### Ejemplo Jenkis en EC2
+4. ### Ejemplo Jenkis en EC2
 
 1. Crear una EC2 y aisgnar un nombre como: _JenkisServer_
 2. Seleccionar la AMI. _Ubuntu Server 22.04 Free tier_
@@ -145,7 +166,7 @@ Agregar el token de auth. Ver en la página
 9. Launch Instance
     
 
-#### Instalar jenkis
+5. ### Instalar jenkis
 
 - Connect _EC2 Instance conenct _ o via SSH.
 - Install Jenkis
@@ -185,6 +206,65 @@ Update your local package index, then finally install Jenkins:
  - Instalar los pluguins recomendados.
 
 - test webhook
+
+### CD - deployment to Elastic Beanstal
+
+- Instalar el plugin AWS Elastic Beanstalk Publisher Plugin.
+ 
+ - Instalar el plugin AWS CredentialsVersion
+
+ - Ir a System -> Deploy into AWS Elastic Beanstalk 
+   Add credentials
+    - Completar con el user o IAM user data.
+
+### Docker local deploy
+
+- Instalar docker
+ 
+  ```sudo apt get install docker.io```
+
+  - Jenkis pipeline
+
+  ```Groovy
+  pipeline {
+    agent any
+    environment {
+        // Define tus variables de entorno aquí
+        DOCKER_IMAGE = 'productsApi:tag'
+    }
+    stages {
+        stage("Checkout") {
+            steps {
+                // Clona tu código fuente
+                git url: "https://github.com/jhonarias91/cppProductsRestApi"
+            }
+        }
+        stage("Build") {
+            steps {
+                // Compila tu aplicación si es necesario
+                sh "g++ -std=c++11 -o productsapp ./src/main.cpp ./src/functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
+            }
+        }
+        stage("Dockerize") {
+            steps {
+                script {
+                    // Construir la imagen Docker
+                    sh "docker build -t ${DOCKER_IMAGE} ."
+                    // Opcional: Publicar en un registro de Docker
+                    // sh "docker push ${DOCKER_IMAGE}"
+                    sh "docker build -t ${DOCKER_IMAGE} ."
+                }
+            }
+        }
+    }
+}
+  ```
+
+### Docker Image
+
+- Agregar la SSH a las credenciales de Jenkis 
+usando private key en username poner el de la ec2: ubuntu 
+y asignar un id o dejar que lo genere (1540cfc2-b32f-48a6-820c-54e3a9ab0c95)
 
 
 
