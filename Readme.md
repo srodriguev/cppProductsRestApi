@@ -208,9 +208,8 @@ Update your local package index, then finally install Jenkins:
 ```sudo cat /var/lib/jenkins/secrets/initialAdminPassword```
 
  - Instalar los pluguins recomendados.
- - Instalar el plugin de Github para los webhooks
-- test webhook
-
+ - Instalar el plugin GitHub IntegrationVersion 0.7.0 o superior para los webhooks
+ - test webhook
 
 ### Docker deploy
 
