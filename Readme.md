@@ -60,7 +60,7 @@
  ```./runUnitTest```
 
 
-3. ### Jenkis Pipeline
+3. ### Jenkis Pipeline (solo para ssh _deprecated_)
 
 - Install Jenkis
 
@@ -82,13 +82,15 @@
 
 - Instalar pluguing SSH Pipeline Steps Version 2.0.68.va_d21a_12a_6476  o superior
 
-- Conectarse a la EC2, ir a /opt y dar permisos
+- Conectarse a la EC2, ir a /opt y dar permisos (si se va a desplegar a /opt)
 
 - Agregar la ip de EC2  known host
 
 - ssh-keyscan -t rsa 3.138.34.44 
 
 - copiar el contenido en un archivo known_host y copiar ese archivo 
+
+
  en alguna ruta como /var/lib/jenkins/workspace
 
 darle permisos de lectura a jenkis sobre ese archivo .
@@ -145,11 +147,11 @@ Agregar el token de auth. Ver en la página
 ```ngrok http http://localhost:8080```
 
 
-4. ### Ejemplo Jenkis en EC2
+4. ### Jenkis en EC2
 
 1. Crear una EC2 y aisgnar un nombre como: _JenkisServer_
 2. Seleccionar la AMI. _Ubuntu Server 22.04 Free tier_
-3. Instace type: _t2.micro Free tier_
+3. Instace type: _t2.midle_
 4. Seleccionar o crear Key pair.
 5. Create security group: _Allow SSH anywhere, allow Https, htpp from internet_
 6. Configure storage: _default 8 Gb gp2_
@@ -162,6 +164,8 @@ Agregar el token de auth. Ver en la página
     - Edit inbound rules 
     - Add rule
     - Custom TCP - 8080 - Anywhere
+    - Custom TCP - 5000 - Anywhere
+    - SSH - 22 - Anywhere
     - Save rules
 9. Launch Instance
     
@@ -184,10 +188,10 @@ Then add a Jenkins apt repository entry:
   
 Update your local package index, then finally install Jenkins:
 
-   
+  ```sh 
   sudo apt-get update
   sudo apt-get install fontconfig openjdk-17-jre
-  sudo apt-get install jenkins```  
+  sudo apt-get install jenkins``` 
 
 - Correr el servicio de Jenkis
  journalctl -u jenkins.service
@@ -204,24 +208,34 @@ Update your local package index, then finally install Jenkins:
 ```sudo cat /var/lib/jenkins/secrets/initialAdminPassword```
 
  - Instalar los pluguins recomendados.
-
+ - Instalar el plugin de Github para los webhooks
 - test webhook
 
-### CD - deployment to Elastic Beanstal
 
-- Instalar el plugin AWS Elastic Beanstalk Publisher Plugin.
- 
- - Instalar el plugin AWS CredentialsVersion
-
- - Ir a System -> Deploy into AWS Elastic Beanstalk 
-   Add credentials
-    - Completar con el user o IAM user data.
-
-### Docker local deploy
+### Docker deploy
 
 - Instalar docker
- 
-  ```sudo apt get install docker.io```
+    - sudo apt-get update: Actualiza lista de paquetes disponibles.
+    - sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common: Instala utilidades esenciales para añadir repositorios HTTPS.
+    - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -: Añade clave GPG de Docker.
+    - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable": Añade repositorio de Docker.
+    - sudo apt-get update: Actualiza lista de paquetes nuevamente.
+    - sudo apt-get install -y docker-ce: Instala Docker Community Edition.
+    - sudo systemctl start docker: Inicia el servicio de Docker.
+    - sudo systemctl enable docker: Habilita Docker al arranque.
+    - sudo usermod -aG docker ${USER}: Añade usuario al grupo Docker.
+
+ ```sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install -y docker-ce
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker ${USER}
+```
+
 
   - Agregar el usuario de jenkis al grupo docker para poderle dar 
   permisos al usuario jenkis ejecutar comandos docker sin sudo.
@@ -239,7 +253,8 @@ Update your local package index, then finally install Jenkins:
     agent any
     environment {
         // Define tus variables de entorno aquí
-        DOCKER_IMAGE = 'productsapi:tag'
+        DOCKER_IMAGE = 'productsapi_0.0.1:dev'
+        DOCKER_CONTAINER_NAME = 'productsapicontainer'
     }
     stages {
         stage("Checkout") {
@@ -259,15 +274,40 @@ Update your local package index, then finally install Jenkins:
                 script {
                     // Construir la imagen Docker
                     sh "docker build -t ${DOCKER_IMAGE} ."
-                    // Opcional: Publicar en un registro de Docker
+                    // Opcional: Publicar en un registro de Docker se debe autenticar
                     // sh "docker push ${DOCKER_IMAGE}"
-                    sh "docker build -t ${DOCKER_IMAGE} ."
+                }
+            }
+        }
+        stage("LocalDeploy") {
+            steps {
+                script {                    
+                    // Detener y eliminar el contenedor si ya está en ejecución (opcional)
+                    sh "docker stop ${DOCKER_CONTAINER_NAME} || true && docker rm ${DOCKER_CONTAINER_NAME} || true"
+                    
+                    // Ejecutar el contenedor
+                    sh "docker run -d --name ${DOCKER_CONTAINER_NAME} -p 5000:5000 ${DOCKER_IMAGE}"
                 }
             }
         }
     }
 }
   ```
+
+*Consumirlo desde el host local*
+
+    ```http://localhost:5000?id=200```
+
+    ### Despliegue en EC2.
+
+    #### Configurar EC2 Instance
+
+     Vamos a necesitar una instance type t2.medium ya que nos ofrece 2 vCPUs y 4 GB de memoria que es lo que vamos a necesitar 
+     para tener Jenkis, docker y correr el servicio.
+
+
+
+
 
 ### Docker Image
 

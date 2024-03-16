@@ -3,7 +3,7 @@ pipeline {
     environment {
         // Define tus variables de entorno aquí
         DOCKER_IMAGE = 'productsapi_0.0.1:dev'
-        DOCKER_CONTAINER_NAME = 'productsapi'
+        DOCKER_CONTAINER_NAME = 'productsapicontainer'
     }
     stages {
         stage("Checkout") {
@@ -28,7 +28,7 @@ pipeline {
                 }
             }
         }
-        stage("LocalDeploy") {
+        stage("Deploy-EC2") {
             steps {
                 script {                    
                     // Detener y eliminar el contenedor si ya está en ejecución (opcional)
