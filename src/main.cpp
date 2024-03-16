@@ -22,9 +22,7 @@ int main() {
             .open()
             .then([&listener]() { std::cout << "Starting to listen at: " << listener.uri().to_string() << std::endl; })
             .wait();
-
-        std::string line;
-        std::getline(std::cin, line);
+            
         listener.close().wait();
     } catch (const std::exception& e) {
         std::cerr << "An error occurred: " << e.what() << std::endl;
