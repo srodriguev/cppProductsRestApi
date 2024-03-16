@@ -23,7 +23,6 @@ int main() {
             .then([&listener]() { std::cout << "Starting to listen at: " << listener.uri().to_string() << std::endl; })
             .wait();
 
-        std::cout << "Press ENTER to exit." << std::endl;
         std::string line;
         std::getline(std::cin, line);
         listener.close().wait();
