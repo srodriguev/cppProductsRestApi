@@ -11,7 +11,7 @@ using namespace web::http::experimental::listener;
 
 
 int main() {
-    uri_builder uri(U("http://localhost:5000"));
+    uri_builder uri(U("http://0.0.0.0:5000"));
     auto addr = uri.to_uri().to_string();
     http_listener listener(addr);
     

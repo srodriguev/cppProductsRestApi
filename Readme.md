@@ -223,6 +223,11 @@ Update your local package index, then finally install Jenkins:
  
   ```sudo apt get install docker.io```
 
+  - Agregar el usuario de jenkis al grupo docker para poderle dar 
+  permisos al usuario jenkis ejecutar comandos docker sin sudo.
+    
+    ```sudo usermod -aG docker jenkins``` 
+
   - Jenkis pipeline
 
   ```Groovy
@@ -230,7 +235,7 @@ Update your local package index, then finally install Jenkins:
     agent any
     environment {
         // Define tus variables de entorno aquí
-        DOCKER_IMAGE = 'productsApi:tag'
+        DOCKER_IMAGE = 'productsapi:tag'
     }
     stages {
         stage("Checkout") {
