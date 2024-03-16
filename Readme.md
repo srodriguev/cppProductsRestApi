@@ -228,6 +228,10 @@ Update your local package index, then finally install Jenkins:
     
     ```sudo usermod -aG docker jenkins``` 
 
+- Verificamos que el puerto no esté ocupado
+
+  ```lsof -i :5000```
+  
   - Jenkis pipeline
 
   ```Groovy

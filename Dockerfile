@@ -21,5 +21,8 @@ RUN g++ -std=c++11 -o productsapp main.cpp functions.cpp -lcpprest -lboost_syste
 # Exponer el puerto que usa tu aplicación
 EXPOSE 5000
 
+# darle permisos 
+RUN chmod +x ./productsapp
+
 # Comando para ejecutar la aplicación
 CMD ["./productsapp"]
