@@ -1,7 +1,7 @@
-# Usar como base la imagen de Ubuntu
+# Usamos como base la imagen de Ubuntu
 FROM ubuntu:latest
 
-# Instalar dependencias
+# Se instalan las dependencias
 RUN apt-get update && apt-get install -y \
     g++ \
     libboost-all-dev \
@@ -9,19 +9,19 @@ RUN apt-get update && apt-get install -y \
     libcpprest-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copiar los archivos del proyecto al contenedor
+# Se copian los archivos del proyecto al contenedor
 COPY . /app
 
-# Establecer el directorio de trabajo
+# Se Establece el directorio de trabajo
 WORKDIR /app/src
 
 # Compilar la aplicación
 RUN g++ -std=c++11 -o productsapp main.cpp functions.cpp -lcpprest -lboost_system -lssl -lcrypto
 
-# Exponer el puerto que usa tu aplicación
+# Exponemos el puerto en el que corre la app productos api.
 EXPOSE 5000
 
-# darle permisos 
+# Otorgarle permisos para que se ejecute sin inconvenientes.
 RUN chmod +x ./productsapp
 
 # Comando para ejecutar la aplicación

@@ -1,29 +1,29 @@
 pipeline {
     agent any
     environment {
-        // Define tus variables de entorno aquí
+        // Definimos variables de entorno
         DOCKER_IMAGE = 'productsapi_0.0.1:dev'
         DOCKER_CONTAINER_NAME = 'productsapicontainer'
     }
     stages {
         stage("Checkout") {
             steps {
-                // Clona tu código fuente
+                // CLonación del proyecto
                 git url: "https://github.com/jhonarias91/cppProductsRestApi"
             }
         }
         stage("Build") {
             steps {
-                // Compila tu aplicación si es necesario
+                // Hacemos un build para las pruebas locales
                 sh "g++ -std=c++11 -o productsapp ./src/main.cpp ./src/functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
             }
         }
         stage("Dockerize") {
             steps {
                 script {
-                    // Construir la imagen Docker
+                    // Se crea la imágen para el Docker
                     sh "docker build -t ${DOCKER_IMAGE} ."
-                    // Opcional: Publicar en un registro de Docker se debe autenticar
+                    // Opcional: Publicar en un registro de Docker, se debe autenticar
                     // sh "docker push ${DOCKER_IMAGE}"
                 }
             }
@@ -31,10 +31,10 @@ pipeline {
         stage("Deploy-EC2") {
             steps {
                 script {                    
-                    // Detener y eliminar el contenedor si ya está en ejecución (opcional)
+                    // Se detiene y elimina el contenedor si ya está en ejecución
                     sh "docker stop ${DOCKER_CONTAINER_NAME} || true && docker rm ${DOCKER_CONTAINER_NAME} || true"
                     
-                    // Ejecutar el contenedor
+                    // Se ejecuta el contenedor
                     sh "docker run -d --name ${DOCKER_CONTAINER_NAME} -p 5000:5000 ${DOCKER_IMAGE}"
                 }
             }
