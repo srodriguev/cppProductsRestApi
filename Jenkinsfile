@@ -2,7 +2,8 @@ pipeline {
     agent any
     environment {
         // Definimos variables de entorno
-        DOCKER_IMAGE = 'productsapi_0.0.1:dev'
+        //El nombre debe coincidir con el repositorio
+        DOCKER_IMAGE = 'jhonarias91/productsapirepo:v0.0.1' 
         DOCKER_CONTAINER_NAME = 'productsapicontainer'
     }
     stages {
@@ -24,7 +25,7 @@ pipeline {
                     // Se crea la imágen para el Docker
                     sh "docker build -t ${DOCKER_IMAGE} ."
                     // Opcional: Publicar en un registro de Docker, se debe autenticar
-                    // sh "docker push ${DOCKER_IMAGE}"
+                    sh "docker push ${DOCKER_IMAGE}"
                 }
             }
         }

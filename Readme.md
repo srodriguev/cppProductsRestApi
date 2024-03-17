@@ -1,21 +1,21 @@
 ### C++ Simple Rest API
 
-1. ### Sources
+### Sources
 
 - Make sure you have a IDE like VSCode
 
 - *Instalar todas las depdendencias necesarias. como g++ (compilador c++) librerias web libboost-all-dev cpprest es una libreria para REST Api* 
  estas librerias y compilador se deben instalar en el ambiente donde se desee compilar y correr la api.
     
-    ```sudo apt update```
+```sudo apt update```
 
-    ```sudo apt install -y git g++ libboost-all-dev libssl-dev libcpprest-dev libgtest-dev```
+```sudo apt install -y git g++ libboost-all-dev libssl-dev libcpprest-dev libgtest-dev```
 
-- *Para verificarla*
+*Verificar instalación*
 
-    ```dpkg -l | grep libcpprest```
+```dpkg -l | grep libcpprest```
 
-- Clonar el projecto:
+- Clonar el proyecto:
 
  ```git clone https://github.com/jhonarias91/cppProductsRestApi.git```
 
@@ -25,45 +25,44 @@
 
 - *Compilar el programa*
 
-    En la carpeta src:
+En la carpeta src:
     
-    ```g++ -std=c++11 -o productsapp  main.cpp functions.cpp -lcpprest -lboost_system -lssl -lcrypto```
+```g++ -std=c++11 -o productsapp  main.cpp functions.cpp -lcpprest -lboost_system -lssl -lcrypto```
 
-    - std=c++11: Especifica el estándar de C++ a usar, necesario para algunas características de C++ usadas con libcpprest.
+- std=c++11: Especifica el estándar de C++ a usar, necesario para algunas características de C++ usadas con libcpprest.
       main.cpp: El nombre del source.cpp
-    - o productsapp: Especifica el nombre del archivo de salida ejecutable. Puedes cambiar my_service por cualquier otro nombre que prefieras para tu programa.
-    - lcpprest: Vincula el programa con la biblioteca libcpprest.
-    - lboost_system: Vincula el programa con la biblioteca Boost.System, que es una de las dependencias de libcpprest.
-    - lssl -lcrypto: Vincula el programa con las bibliotecas OpenSSL, que son necesarias para el soporte de HTTPS y otras características de seguridad.
-    - functions.cpp es la implementación que se incluye en el main
+- o productsapp: Especifica el nombre del archivo de salida ejecutable. Puedes cambiar my_service por cualquier otro nombre que prefieras para tu programa.
+- lcpprest: Vincula el programa con la biblioteca libcpprest.
+- lboost_system: Vincula el programa con la biblioteca Boost.System, que es una de las dependencias de libcpprest.
+- lssl -lcrypto: Vincula el programa con las bibliotecas OpenSSL, que son necesarias para el soporte de HTTPS y otras características de seguridad.
+- functions.cpp es la implementación que se incluye en el main
 
-- *Ejecutarlo*
+- *Ejecutarlo* 
     ```./productsapp```
 
 - *Consumirlo*
     - local: ```curl "http://localhost:5000?id=200"```
     
-2. ### Testing
+### Testing
 
 - Bajar el paquete de  gtest  
 ```sudo apt install -y libgtest-dev``` 
+    
     Para fedora:
-    ```sudo dnf install googletest-devel```
+```sudo dnf install googletest-devel```
 
 - Compilar las unitTest
 
-```g++ -std=c++11 -o runUnitTest unitTest.cpp functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto```
+    ```g++ -std=c++11 -o runUnitTest unitTest.cpp functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto```
 
-- Ejecutar las unitTest
- 
+- Ejecutar las unitTest 
  ```./runUnitTest```
 
-
-- ### Jenkis en EC2
+### Jenkis en EC2
 
 1. Crear una EC2 y aisgnar un nombre como: _JenkisServer_
 2. Seleccionar la AMI. _Ubuntu Server 22.04 Free tier_
-3. Instace type: _t2.midle_
+3. Instace type: _t2.midle_ (Con una inferior es posible que el container se detenga)
 4. Seleccionar o crear Key pair.
 5. Create security group: _Allow SSH anywhere, allow Https, htpp from internet_
 6. Configure storage: _default 8 Gb gp2_
@@ -84,11 +83,10 @@
 -  ### Instalar jenkis
 
 - Connect _EC2 Instance conenct _ o via SSH.
-- Install Jenkis
-[Instalación Ubuntu](https://pkg.origin.jenkins.io/debian-stable/)
+- Install Jenkis 
+[Instalación en Ubuntu](https://pkg.origin.jenkins.io/debian-stable/)
 
-```   
-  sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
     https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
   
 Then add a Jenkins apt repository entry:
@@ -99,20 +97,18 @@ Then add a Jenkins apt repository entry:
   
 Update your local package index, then finally install Jenkins:
 
-  ```sh 
-  sudo apt-get update
-  sudo apt-get install fontconfig openjdk-17-jre
-  sudo apt-get install jenkins``` 
+  ```sudo apt-get update```
+  ```sudo apt-get install fontconfig openjdk-17-jre```
+  ```sudo apt-get install jenkins``` 
 
 - Correr el servicio de Jenkis
  journalctl -u jenkins.service
 
-- Verificar jenkis 
+- Conectarse a jenkis 
+
  ```https://ec2instance.ip:8080```
 
- Si hay algún error con https(puede ser SSL de Jenkis), intentar con 
-
- http://3.145.92.103:8080/
+ Si hay algún error con https(puede ser SSL de Jenkis), intentar con http
 
 - Ver La clave
 
@@ -121,19 +117,13 @@ Update your local package index, then finally install Jenkins:
  - Instalar los pluguins recomendados.
  - Instalar el GitHub Plugin para los webhooks
  - test webhook
- 
-#### Create el Pipeline.
 
-- Agregar un nuevo item y seleccionar Pipeline
-- asiganr un nombre: webHookDocker
-- *Build Triggers*: GitHub hook trigger for GITScm polling
-- *Pipeline*: Pipeline Script from SCM.
-- SCM: Git 
-    - Repository URL: https://github.com/jhonarias91/cppProductsRestApi
-- Branch: */master
-- Script Path: Jenkinsfile
-- Save
-- Hacer un push al repo y verificar.
+
+#### Crear repository en dockerhub
+
+- Crear un repositorio en: https://hub.docker.com/
+- guardar el user name, el repostoryName para el Pipeline. : jhonarias91/productsapirepo
+
 
 ### Docker deploy
 
@@ -148,17 +138,24 @@ Update your local package index, then finally install Jenkins:
     - sudo systemctl enable docker: Habilita Docker al arranque.
     - sudo usermod -aG docker ${USER}: Añade usuario al grupo Docker.
 
- ```sudo apt-get update
-sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get update
-sudo apt-get install -y docker-ce
-sudo systemctl start docker
-sudo systemctl enable docker
-sudo usermod -aG docker ${USER}
-```
-### Preparar ambiente para compilación Cpp
+ ```sudo apt-get update```
+
+```sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common```
+
+```curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"```
+
+```sudo apt-get update```
+
+```sudo apt-get install -y docker-ce```
+
+```sudo systemctl start docker```
+
+```sudo systemctl enable docker```
+
+```sudo usermod -aG docker ${USER}```
+
+
+### Preparar ambiente para compilación Cpp en EC2 (dev enviroment)
 
  - ```sudo apt install -y git g++ libboost-all-dev libssl-dev libcpprest-dev libgtest-dev```
 
@@ -175,17 +172,19 @@ sudo usermod -aG docker ${USER}
 
   Seleccionar from SCM repository Jenkinsfile 
   
+ 
+### Create Jenkins Pipeline.
 
-*Consumirlo desde el host local*
-
-    ```http://localhost:5000?id=200```
-
-    ### Despliegue en EC2.
-
-    #### Configurar EC2 Instance
-
-     Vamos a necesitar una instance type t2.medium ya que nos ofrece 2 vCPUs y 4 GB de memoria que es lo que vamos a necesitar 
-     para tener Jenkis, docker y correr el servicio.
+- Agregar un nuevo item y seleccionar Pipeline
+- asiganr un nombre: webHookDocker
+- *Build Triggers*: GitHub hook trigger for GITScm polling
+- *Pipeline*: Pipeline Script from SCM.
+- SCM: Git 
+    - Repository URL: https://github.com/jhonarias91/cppProductsRestApi
+- Branch: */master
+- Script Path: Jenkinsfile
+- Save
+- Hacer un push al repo y verificar.
 
 
 - ### Jenkis Pipeline Local (solo para ssh _deprecated_)
