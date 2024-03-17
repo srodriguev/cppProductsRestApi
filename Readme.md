@@ -97,7 +97,6 @@ darle permisos de lectura a jenkis sobre ese archivo .
 en la parte de knownHostsFile del sshCommand agregar esa ruta.
 
 
-
  ```chmod -R 777 .```
 
 - Configurar el Pipeline
@@ -210,7 +209,7 @@ Update your local package index, then finally install Jenkins:
  - Instalar los pluguins recomendados.
  - Instalar el GitHub Plugin para los webhooks
  - test webhook
-
+ 
 
 #### Create el Pipeline.
 
@@ -248,7 +247,9 @@ sudo systemctl start docker
 sudo systemctl enable docker
 sudo usermod -aG docker ${USER}
 ```
+### Preparar ambiente para compilación Cpp
 
+ - ```sudo apt install -y git g++ libboost-all-dev libssl-dev libcpprest-dev libgtest-dev```
 
   - Agregar el usuario de jenkis al grupo docker para poderle dar 
   permisos al usuario jenkis ejecutar comandos docker sin sudo.
@@ -317,9 +318,6 @@ sudo usermod -aG docker ${USER}
 
      Vamos a necesitar una instance type t2.medium ya que nos ofrece 2 vCPUs y 4 GB de memoria que es lo que vamos a necesitar 
      para tener Jenkis, docker y correr el servicio.
-
-
-
 
 
 ### Docker Image
