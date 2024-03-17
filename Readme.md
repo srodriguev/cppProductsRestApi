@@ -208,8 +208,21 @@ Update your local package index, then finally install Jenkins:
 ```sudo cat /var/lib/jenkins/secrets/initialAdminPassword```
 
  - Instalar los pluguins recomendados.
- - Instalar el plugin GitHub IntegrationVersion 0.7.0 o superior para los webhooks
+ - Instalar el GitHub Plugin para los webhooks
  - test webhook
+
+
+#### Create el Pipeline.
+
+- Agregar un nuevo item y seleccionar Pipeline
+- asiganr un nombre: webHookDocker
+- *Build Triggers*: GitHub hook trigger for GITScm polling
+- *Pipeline*: Pipeline Script from SCM.
+- SCM: Git 
+    - Repository URL: https://github.com/jhonarias91/cppProductsRestApi
+- Branch: */master
+- Script Path: Jenkinsfile
+- Save
 
 ### Docker deploy
 
