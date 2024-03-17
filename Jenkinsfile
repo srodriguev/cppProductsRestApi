@@ -23,9 +23,7 @@ pipeline {
             steps {
                 script {
                     // Se crea la imágen para el Docker
-                    sh "docker build -t ${DOCKER_IMAGE} ."
-                    // Opcional: Publicar en un registro de Docker, se debe autenticar
-                    sh "docker push ${DOCKER_IMAGE}"
+                    sh "docker build -t ${DOCKER_IMAGE} ."                    
                 }
             }
         }
