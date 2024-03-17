@@ -223,6 +223,7 @@ Update your local package index, then finally install Jenkins:
 - Branch: */master
 - Script Path: Jenkinsfile
 - Save
+- Hacer un push al repo y verificar.
 
 ### Docker deploy
 
