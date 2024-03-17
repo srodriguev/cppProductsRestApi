@@ -2,8 +2,8 @@ pipeline {
     agent any
     environment {
         // Definimos variables de entorno
-        //El nombre debe coincidir con el repositorio
-        DOCKER_IMAGE = 'jhonarias91/productsapirepo:v0.0.1' 
+        //El nombre debe coincidir con el repositorio, o agregarle el tag con docker
+        DOCKER_IMAGE = 'jhonarias91/productsapirepo:v0.0.${BUILD_NUMBER}' 
         DOCKER_CONTAINER_NAME = 'productsapicontainer'
     }
     stages {

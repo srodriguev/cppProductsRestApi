@@ -118,11 +118,24 @@ Update your local package index, then finally install Jenkins:
  - Instalar el GitHub Plugin para los webhooks
  - test webhook
 
-
 #### Crear repository en dockerhub
 
 - Crear un repositorio en: https://hub.docker.com/
 - guardar el user name, el repostoryName para el Pipeline. : jhonarias91/productsapirepo
+
+#### Agregar credentials dockerhub
+
+Primero, almacenar las credenciales de Docker Hub (o de cualquier otro registro Docker) en Jenkins:
+
+1. Ve al panel de Jenkins.
+2. Haz clic en “Manage Jenkins” > “Manage Credentials”.
+3. Selecciona el almacen (store) y el dominio adecuados donde deseas guardar tus credenciales.
+4. Haz clic en “Add Credentials” en el lado izquierdo.
+5. Selecciona el tipo “Username with password”.
+6. Ingresa tu nombre de usuario y contraseña de Docker Hub.
+7. Asigna un ID a estas credenciales que usarás en tu Jenkinsfile, por ejemplo, docker_hub_credentials_id.
+
+Esta credencial será usada en la stage: "Login Push Docker Image" del Pipeline.
 
 
 ### Docker deploy
