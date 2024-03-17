@@ -18,13 +18,25 @@ pipeline {
                 // Hacemos un build para las pruebas locales
                 sh "g++ -std=c++11 -o productsapp ./src/main.cpp ./src/functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
             }
-        }
+        }    
         stage("Dockerize") {
             steps {
                 script {
                     // Se crea la imágen para el Docker
                     sh "docker build -t ${DOCKER_IMAGE} ."
                     // Opcional: Publicar en un registro de Docker, se debe autenticar
+                    sh "docker push ${DOCKER_IMAGE}"
+                }
+            }
+        }
+        stage('Login Push Docker Image') {
+            steps {
+                script {
+                    // Usar credenciales de Jenkins para login en Docker Hub
+                    withCredentials([usernamePassword(credentialsId: 'docker_hub_credentials_id', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
+                        sh "echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USER --password-stdin"
+                    }
+                    // Opcional: Publicar en un registro de Docker
                     sh "docker push ${DOCKER_IMAGE}"
                 }
             }
