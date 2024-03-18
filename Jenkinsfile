@@ -21,8 +21,8 @@ pipeline {
         }  
         stage("UnitTest")  {
             steps {
-                    sh "g++ -std=c++11 -o unittest ./src/unitTest.cpp ./src/functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
-                    sh "./unittest"
+                    sh "g++ -std=c++11 -o runUnitTest unitTest.cpp functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto"
+                    sh "./runUnitTest"
                 }
             }        
         stage("Dockerize") {
