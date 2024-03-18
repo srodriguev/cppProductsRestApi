@@ -21,7 +21,7 @@ pipeline {
         }  
         stage("UnitTest")  {
             steps {
-                    sh "g++ -std=c++11 -o runUnitTest /src/unitTest.cpp /src/functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto"
+                    sh "g++ -std=c++11 -o runUnitTest ./src/unitTest.cpp ./src/functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto"
                     sh "./runUnitTest"
                 }
             }        
