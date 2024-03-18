@@ -11,8 +11,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    timeout-minutes: 3  # Establece el límite de tiempo en 10 minutos
-
+    timeout-minutes: 5  # Establece el límite de tiempo en 5 minutos
 
     steps:
     - name: Checkout code
@@ -35,7 +34,6 @@ jobs:
         cd cppProductsRestApi/src
         g++ -std=c++11 -o productsapp  main.cpp functions.cpp -lcpprest -lboost_system -lssl -lcrypto
 
-
     - name: Compile unit tests
       run: |
         cd cppProductsRestApi/src
@@ -43,8 +41,6 @@ jobs:
 
     - name: Run program and unit tests
       run: |
-          ./cppProductsRestApi/src/productsapp &&
-          ./cppProductsRestApi/src/runUnitTest
-      
-
-
+        ./cppProductsRestApi/src/productsapp &   
+        ./cppProductsRestApi/src/runUnitTest     
+        kill %1                                   
