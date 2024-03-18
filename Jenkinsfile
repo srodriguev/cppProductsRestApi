@@ -25,7 +25,6 @@ pipeline {
                     sh "./unittest"
                 }
             }        
-        }
         stage("Dockerize") {
             steps {
                 script {
@@ -58,3 +57,4 @@ pipeline {
             }
         }
     }
+}
