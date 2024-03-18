@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 #include "functions.h"
-#include <thread> // Necesario para std::this_thread::sleep_for
+#include <thread> // Necesario para std::this_thread::sleep_for 
 
 using namespace web;
 using namespace web::http;
