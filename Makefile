@@ -1,14 +1,16 @@
-# Definición de variables
-CXX = g++                # Compilador C++
-CXXFLAGS = -std=c++11    # Opciones de compilación
+CXX = g++
+CXXFLAGS = -std=c++11
+LIBS = -lcpprest -lboost_system -lssl -lcrypto
+SRCDIR = src
+BUILDDIR = build
 
-# Objetivo predeterminado
-all: master
+all: productsapp runUnitTest
 
-# Reglas de compilación
-master: src/main.cpp src/functions.cpp src/unitTest.cpp
-    $(CXX) $(CXXFLAGS) -o $@ $^
+productsapp: $(SRCDIR)/main.cpp $(SRCDIR)/functions.cpp
+    $(CXX) $(CXXFLAGS) -o $(BUILDDIR)/productsapp $(SRCDIR)/main.cpp $(SRCDIR)/functions.cpp $(LIBS)
 
-# Regla para limpiar los archivos generados
+runUnitTest: $(SRCDIR)/unitTest.cpp $(SRCDIR)/functions.cpp
+    $(CXX) $(CXXFLAGS) -o $(BUILDDIR)/runUnitTest $(SRCDIR)/unitTest.cpp $(SRCDIR)/functions.cpp -lgtest -lgtest_main -lpthread $(LIBS)
+
 clean:
-    rm -f master
+    rm -f $(BUILDDIR)/productsapp $(BUILDDIR)/runUnitTest

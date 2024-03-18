@@ -11,6 +11,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    timeout-minutes: 3  # Establece el límite de tiempo en 10 minutos
+
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
