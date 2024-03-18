@@ -21,7 +21,7 @@ RUN g++ -std=c++11 -o productsapp main.cpp functions.cpp -lcpprest -lboost_syste
 # Exponemos el puerto en el que corre la app productos api.
 EXPOSE 5000
 
-# Otorgarle permisos para que se ejecute sin inconvenientes.
+# Se le otorgan permisos para que se ejecute sin inconvenientes.
 RUN chmod +x ./productsapp
 
 # Comando para ejecutar la aplicación

@@ -15,10 +15,20 @@ pipeline {
         }
         stage("Build") {
             steps {
-                // Hacemos un build para las pruebas locales
+                // Build local
                 sh "g++ -std=c++11 -o productsapp ./src/main.cpp ./src/functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
             }
-        }    
+        }  
+        stage("UnitTest")  {
+            steps{
+                ste {
+                    sh "g++ -std=c++11 -o unittest ./src/unitTest.cpp ./src/functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
+                 }
+                 step {
+                    sh "./unittest"
+                 }
+            }        
+        }
         stage("Dockerize") {
             steps {
                 script {
