@@ -20,13 +20,10 @@ pipeline {
             }
         }  
         stage("UnitTest")  {
-            steps{
-                step {
+            steps {
                     sh "g++ -std=c++11 -o unittest ./src/unitTest.cpp ./src/functions.cpp -lcpprest -lboost_system -lssl -lcrypto"
-                 }
-                 step {
                     sh "./unittest"
-                 }
+                }
             }        
         }
         stage("Dockerize") {
