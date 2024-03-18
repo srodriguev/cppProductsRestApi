@@ -32,18 +32,16 @@ jobs:
         cd cppProductsRestApi/src
         g++ -std=c++11 -o productsapp  main.cpp functions.cpp -lcpprest -lboost_system -lssl -lcrypto
 
-    - name: Run program
-      run: ./cppProductsRestApi/src/productsapp
-
-    - name: Consume program locally
-      run: curl "http://localhost:5000?id=200"
 
     - name: Compile unit tests
       run: |
         cd cppProductsRestApi/src
         g++ -std=c++11 -o runUnitTest unitTest.cpp functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto
 
-    - name: Run unit tests
-      run: ./cppProductsRestApi/src/runUnitTest
+    - name: Run program and unit tests
+      run: |
+          ./cppProductsRestApi/src/productsapp &&
+          ./cppProductsRestApi/src/runUnitTest
+      
 
 
