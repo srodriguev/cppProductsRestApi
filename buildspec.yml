@@ -3,17 +3,18 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      # Configura Docker
       - echo Logging in to Docker Hub...
-      - echo $DOCKER_PASSWORD
-      - echo $DOCKER_USERNAME
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      #- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       
   build:
     commands:
-      - echo Building Docker image...
-      - cd cppProductsRestApi
-      - docker build -t $IMAGE_NAME .
+      # Construye la imagen de Docker
+      - docker build -t sarodriel/cppproducts:latest .
+      
   post_build:
     commands:
-      - echo Pushing Docker image to Docker Hub...
-      - docker push $IMAGE_NAME
+      # Etiqueta la imagen
+      - docker tag sarodriel/cppproducts:latest sarodriel/cppproducts:latest
+      # Sube la imagen a Docker Hub
+      - docker push sarodriel/cppproducts:latest
