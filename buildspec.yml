@@ -1,20 +1,16 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      gcc: 7   # Especifica la versión de GCC que deseas utilizar
-    commands:
-      - apt update
-      - apt install -y git g++ libboost-all-dev libssl-dev libcpprest-dev libgtest-dev
   pre_build:
     commands:
-      - cd cppProductsRestApi/src
-      - g++ -std=c++11 -o productsapp main.cpp functions.cpp -lcpprest -lboost_system -lssl -lcrypto
-      - g++ -std=c++11 -o runUnitTest unitTest.cpp functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto
+      - echo Logging in to Docker Hub...
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   build:
     commands:
-      - ./runUnitTest
+      - echo Building Docker image...
+      - cd cppProductsRestApi
+      - docker build -t $IMAGE_NAME .
   post_build:
     commands:
-      - ./productsapp &
+      - echo Pushing Docker image to Docker Hub...
+      - docker push $IMAGE_NAME
