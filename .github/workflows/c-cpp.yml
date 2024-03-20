@@ -24,7 +24,7 @@ jobs:
         dpkg -l | grep libcpprest
 
     - name: Clone project
-      run: git clone https://github.com/jhonarias91/cppProductsRestApi.git
+      run: git clone https://github.com/srodriguev/cppProductsRestApi.git
 
     - name: Set permissions
       run: sudo chmod -R 777 cppProductsRestApi
