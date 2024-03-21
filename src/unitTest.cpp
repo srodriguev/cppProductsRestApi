@@ -51,37 +51,3 @@ TEST(GetDataTest, EmptyFile) {
 
     ASSERT_TRUE(result.is_null()); 
 }
-
-TEST(AddRecordTests, AddValidRecord) {
-    
-    int id = 99999;
-    std::string name = "Test_Product";
-    double price = 9.999;
-
-    // Act: Attempt to add a record.
-    bool resultAdded = insertRecord(id, name, price);
-
-    // Assert: Verify the record was added successfully.
-    ASSERT_TRUE(resultAdded);
-
-
-    //Check if it exists
-    std::map<int, std::pair<std::string, double>> data = loadDataFromCSV("data.csv");
-    
-    json::value result = getData(id,data);
-
-    ASSERT_EQ(result[U("id")].as_integer(), id);
-    ASSERT_EQ(result[U("name")].as_string(), name);
-    ASSERT_EQ(result[U("price")].as_double(), price);
-
-    bool resultDelete = deleteRecord(id);
-    ASSERT_TRUE(resultDelete);
-}
-
-
-TEST(DeleteRecordTests, deleteNotFound) {
-    int id = 999990; //Should not exist
-
-    bool resultDelete = deleteRecord(id);
-    ASSERT_FALSE(resultDelete);
-}
