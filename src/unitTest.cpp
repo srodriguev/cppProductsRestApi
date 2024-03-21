@@ -55,14 +55,15 @@ TEST(GetDataTest, EmptyFile) {
 TEST(AddRecordTests, AddValidRecord) {
     
     int id = 99999;
-    std::string name = "Test Product";
-    double price = 9.9999;
+    std::string name = "Test_Product";
+    double price = 9.999;
 
     // Act: Attempt to add a record.
     bool resultAdded = insertRecord(id, name, price);
 
     // Assert: Verify the record was added successfully.
     ASSERT_TRUE(resultAdded);
+
 
     //Check if it exists
     std::map<int, std::pair<std::string, double>> data = loadDataFromCSV("data.csv");
@@ -79,7 +80,7 @@ TEST(AddRecordTests, AddValidRecord) {
 
 
 TEST(DeleteRecordTests, deleteNotFound) {
-    int id = 999990; //Should not exists
+    int id = 999990; //Should not exist
 
     bool resultDelete = deleteRecord(id);
     ASSERT_FALSE(resultDelete);
