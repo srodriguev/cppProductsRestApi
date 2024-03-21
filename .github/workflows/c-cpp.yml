@@ -39,8 +39,14 @@ jobs:
         cd cppProductsRestApi/src
         g++ -std=c++11 -o runUnitTest unitTest.cpp functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto
 
+    - name: Compile Integration tests
+      run: |
+        sh "g++ -std=c++11 -o runIntegrationTest ./src/integrationTest.cpp ./src/functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto"
+        sh "./runIntegrationTest"
+
     - name: Run program and unit tests
       run: |
         ./cppProductsRestApi/src/productsapp &   
-        ./cppProductsRestApi/src/runUnitTest     
+        ./cppProductsRestApi/src/runUnitTest &
+        ./cppProductsRestApi/src/runIntegrationTest     
         kill %1                                   
