@@ -22,6 +22,7 @@ jobs:
         sudo apt update
         sudo apt install -y git g++ libboost-all-dev libssl-dev libcpprest-dev libgtest-dev
         dpkg -l | grep libcpprest
+        
 
     - name: Clone project
       run: git clone https://github.com/srodriguev/cppProductsRestApi.git
@@ -38,13 +39,13 @@ jobs:
       run: |
         cd cppProductsRestApi/src
         g++ -std=c++11 -o runUnitTest unitTest.cpp functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto
-
+        
     - name: Compile Integration tests
       run: |
         cd cppProductsRestApi/src
         g++ -std=c++11 -o runIntegrationTest integrationTest.cpp functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto
 
-    - name: Run program and unit tests
+    - name: Run program and tests
       run: |
         ./cppProductsRestApi/src/productsapp &   
         ./cppProductsRestApi/src/runUnitTest &

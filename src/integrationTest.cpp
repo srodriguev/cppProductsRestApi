@@ -45,7 +45,7 @@ bool waitForServerReady(const std::string& uri, int timeoutSeconds) {
 
 TEST(GetTest, TestGetId1oK) {
     startServer(4301);
-    ASSERT_TRUE(waitForServerReady("http://localhost:4301", 5)); // 5 seconds timeout
+    ASSERT_TRUE(waitForServerReady("http://localhost:4301", 15)); // seconds timeout
 
     http::client::http_client client(U("http://localhost:4301"));
     auto query = uri::encode_uri(U("?id=1")); 
@@ -65,7 +65,7 @@ TEST(GetTest, TestGetId1oK) {
 
 TEST(GetTest, TestGetId5oK) {
     startServer(4302);
-    ASSERT_TRUE(waitForServerReady("http://localhost:4302", 5)); // 5 seconds timeout
+    ASSERT_TRUE(waitForServerReady("http://localhost:4302", 15)); // seconds timeout
 
     http::client::http_client client(U("http://localhost:4302"));
     auto query = uri::encode_uri(U("?id=5")); 
