@@ -41,8 +41,8 @@ jobs:
 
     - name: Compile Integration tests
       run: |
-        sh "g++ -std=c++11 -o runIntegrationTest ./src/integrationTest.cpp ./src/functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto"
-        sh "./runIntegrationTest"
+        cd cppProductsRestApi/src
+        g++ -std=c++11 -o runIntegrationTest integrationTest.cpp functions.cpp -lgtest -lgtest_main -lpthread -lcpprest -lboost_system -lssl -lcrypto
 
     - name: Run program and unit tests
       run: |
